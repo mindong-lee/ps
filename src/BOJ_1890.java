@@ -5,15 +5,14 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class BOJ_1890 {
-    static long ans;
     static int N,arr[][];
-    static int[][] visit;
+    static long[][] visit;
     public static void main(String[] args) throws IOException {
         System.setIn(new FileInputStream("input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         arr = new int[N][N];
-        visit = new int[N][N];
+        visit = new long[N][N];
 
         for(int i=0; i<N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -22,37 +21,23 @@ public class BOJ_1890 {
             }
         }
 
-        dfs(0,0);
-        System.out.println(ans);
+        System.out.println(dfs(0,0));
     }
 
-    private static boolean dfs(int r, int c) {
-        if(visit[r][c]>0 || (r==N-1 && c==N-1)){
-            ans+=visit[r][c];
-            return true;
-        }
-        if(arr[r][c]==0 || visit[r][c]==-1) return false;
-
-        boolean flag = false;
+    private static long dfs(int r, int c) {
+        if(r==N-1 && c==N-1)
+            return 1;
+        if(arr[r][c]==0)
+            return 0;
+        if(visit[r][c]>0)
+            return visit[r][c];
 
         if(c+arr[r][c]<N){
-            if(dfs(r,c+arr[r][c])){
-                visit[r][c]++;
-                flag=true;
-            }
+            visit[r][c] += dfs(r,c+arr[r][c]);
         }
         if(r+arr[r][c]<N){
-            if(dfs(r+arr[r][c],c)){
-                visit[r][c]++;
-                flag=true;
-            }
+            visit[r][c] += dfs(r+arr[r][c],c);
         }
-
-        if(!flag) {
-            visit[r][c]=-1;
-            return false;
-        } else {
-            return true;
-        }
+        return visit[r][c];
     }
 }
