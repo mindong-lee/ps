@@ -23,7 +23,7 @@ public class SWEA_5604_MATH3 {
     static long[] dp_ofs;
 
 
-    // Main Function
+    // BOJ_10165_ing Function
     public static void main(String[] args) throws IOException
     {
         // Process
